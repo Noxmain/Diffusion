@@ -16,6 +16,12 @@ This project was developed as part of the seminar ‘Understanding Deep Learning
 
 > TODO
 
+```
+Activate venv: source venv/bin/activate
+Deactivate venv: deactivate
+Create requirements file: pip freeze > requirements.txt
+```
+
 ---
 
 ## References
