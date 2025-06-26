@@ -2,6 +2,7 @@ import torch
 import diffusers
 from PIL import Image
 from tqdm import tqdm
+import os
 
 # setup
 model_id = "google/ddpm-celebahq-256" # select pretrained model
@@ -26,5 +27,7 @@ for t in tqdm(scheduler.timesteps):
 output = (current / 2 + 0.5).clamp(0, 1) # map from [-1,1] to [0,1]
 output = output.permute(0, 2, 3, 1).numpy()[0] # change order of tensor
 output = (output * 255).round().astype("uint8") # convert to image values
+os.makedirs("output", exist_ok=True)
 output = Image.fromarray(output) # convert to image
 output.save("output/output.png") # save image
+output.show()
