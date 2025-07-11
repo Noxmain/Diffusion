@@ -4,6 +4,9 @@ import torch
 from PIL import Image
 import base64
 import io
+import os
+
+os.makedirs("../output", exist_ok=True)
 
 def tensor_as_image(tensor):
     # convert an image tensor to an image object
@@ -47,3 +50,7 @@ def show_table(table):
 def show_images(*tensors):
     # show image tesors side by side
     show_table([[tensor_as_html(t) for t in tensors]])
+
+def generate_noise(image_size):
+    new_noise = torch.randn((1, 3, image_size, image_size))
+    return new_noise
