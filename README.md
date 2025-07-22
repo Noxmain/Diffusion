@@ -4,7 +4,9 @@ This project was developed as part of the seminar *Understanding Deep Learning* 
 
 ## Overview
 
-Our project explores and illustrates the **diffusion process** and its **reverse (denoising) process** in diffusion models. 
+Our project was designed alongside our presentation on diffusion models. Diffusion models learn to remove noise from data points for any amount of noise across all data points in a given training dataset. This implicitly allows them to learn complex distributions and dependencies within the training data. A properly trained network can then be used to generate new data points, which resemble typical data points from the training set, starting from pure noise.
+
+The diffusion models we use in our project are `google/ddpm-celebahq-256` [1] and `google/ddpm-bedroom-256` [2].
 
 We provide:
 - **Intuitive visualizations** of both the forward (noising) and backward (denoising) processes.
@@ -47,7 +49,7 @@ jupyter notebook src/main.ipynb
 
 ## Repository Structure
 
-| File / Folder                      | Description |
+| Folder / File                      | Description |
 |-----------------------------------|-------------|
 | `src/main.ipynb`                  | Visualizes the reverse process of the diffusion model. |
 | `src/forward_backward_process.ipynb` | Provides a visualization of the forward (noising) and backward (denoising) process. |
@@ -62,13 +64,22 @@ jupyter notebook src/main.ipynb
   - What the input and output of a decoder are.
   - How the output of the decoder is used to generate clearer images.
 
+  <div>
+  <img src="images/Predicted_noise_visualization.png" alt="Different Noise Patches" width="100%">
+</div>
+
 - **`src/forward_backward_process.ipynb`**  
   Provides a visualization of the forward (noising) and backward (denoising) process. It demonstrates two things:
   - First, that the decoder can start at any noise level, because it learned to predict the noise for any noise level.
   - Second, how much information must be destroyed by noising an image to yield substantially different results.
+  - Reverse diffusion process ouput example: 
 
 - **`src/similar_noise.ipynb`**  
   Demonstrates how different but **similar noise vectors** result in similar images using DDIM sampling, giving insight into the **determinism of DDIM**. Provides two experiments with a DDIM, which illustrate how changing the noise used as a starting point in the sampling process (image generation process) impacts the result (the clear image).
+  <div style="display: flex; gap: 10px; align-items: center;">
+  <img src="images/ddim_2_noise.gif" alt="Different Noise Patches" width="45%">
+  <img src="images/ddim_2_image.gif" alt="Different Output Images" width="45%">
+</div>
 
 - **`src/functions.py`**  
   Contains utility functions reused across notebooks. Keeps the code modular and clean.
@@ -77,18 +88,13 @@ jupyter notebook src/main.ipynb
   Lists Python package dependencies.
 
 
-### Example Visuals
+---
+## References
+[1] https://huggingface.co/google/ddpm-celebahq-256
 
-- Reverse diffusion process ouput example:  
-![reverse-process-example](images/ddpm_9.png)
+[2] https://huggingface.co/google/ddpm-bedroom-256
 
-- Similar noise experiment result:
-
-<div style="display: flex; gap: 10px; align-items: center;">
-  <img src="images/ddim_2_noise.gif" alt="Different Noise Patches" width="25%">
-  <img src="images/ddim_2_image.gif" alt="Different Output Images" width="25%">
-</div>
-
+[3] S. J. D. Prince, Understanding Deep Learning. The MIT Press, 2023. [website to book](https://udlbook.github.io/udlbook/)
 
 ---
 
