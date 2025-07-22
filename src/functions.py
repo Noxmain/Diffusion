@@ -5,6 +5,7 @@ from PIL import Image
 import base64
 import io
 import os
+import yaml
 
 os.makedirs("../output", exist_ok=True)
 
@@ -55,47 +56,6 @@ def generate_noise(image_size):
     new_noise = torch.randn((1, 3, image_size, image_size))
     return new_noise
 
-def user_input_patch():
-    patch_size = None
-    patch_position_x = None
-    patch_position_y = None
-
-    while patch_position_x is None or patch_position_x < 0 or patch_position_x > 256:
-        try:
-            patch_position_x = int(input("Enter the X position of the patch (0-256): "))
-            if patch_position_x < 0 or patch_position_x > 256:
-                print("Value out of range. Please enter a number between 0 and 256.")
-        except ValueError:
-            print("Invalid input. Please enter an integer.")
-
-    while patch_position_y is None or patch_position_y < 0 or patch_position_y > 256:
-        try:
-            patch_position_y = int(input("Enter the Y position of the patch (0-256): "))
-            if patch_position_y < 0 or patch_position_y > 256:
-                print("Value out of range. Please enter a number between 0 and 256.")
-        except ValueError:
-            print("Invalid input. Please enter an integer.")
-
-    max_patch_size = min(256 - patch_position_x, 256 - patch_position_y)
-    while patch_size is None or patch_size > max_patch_size  or patch_size < 0:
-        try:
-            patch_size = int(input(f"Enter patch size (max {max_patch_size}): "))
-            if patch_size > max_patch_size or patch_size < 0:
-                print(f"Value out of range. Please enter a number between 0 and {max_patch_size}.")
-        except ValueError:
-            print("Invalid input. Please enter an integer.")
-
-    return patch_size, patch_position_x, patch_position_y
-
-
-def user_input_noise_scaling_factor():
-    noise_scaling_factor = None
-    while noise_scaling_factor is None or not (0.0 <= noise_scaling_factor <= 1.0):
-        try:
-            noise_scaling_factor = float(input("Enter noise scaling factor (0.0-1.0): "))
-            if not (0.0 <= noise_scaling_factor <= 1.0):
-                print("Value out of range. Please enter a number between 0.0 and 1.0.")
-        except ValueError:
-            print("Invalid input. Please enter a float.")
-
-    return noise_scaling_factor
+def config(key):
+    with open("config.yaml") as f:
+        return yaml.safe_load(f).get(key)

@@ -1,0 +1,25 @@
+# select model
+model: google/ddpm-celebahq-256
+# available options:
+# google/ddpm-bedroom-256
+# google/ddpm-celebahq-256
+
+# select number of timesteps to generate
+model.timesteps: 50
+# integer ∈ [1, 1000]
+# smaller number of timesteps leads to faster generation
+# larger number of timesteps leads to better quality
+
+# select a timestep for the forward process
+forward.timestep: 10
+# integer ∈ [0, model.timesteps - 1]
+
+# select noise patch position and size
+patch.size: 50
+patch.position.x: 50
+patch.position.y: 50
+# integers
+
+# select noise scaling factor
+noise.scaling: 0.5
+# float ∈ [0, 1]
