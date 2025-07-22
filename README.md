@@ -6,7 +6,7 @@ This project was developed as part of the seminar *Understanding Deep Learning* 
 
 Our project was designed alongside our presentation on diffusion models. Diffusion models learn to remove noise from data points for any amount of noise across all data points in a given training dataset. This implicitly allows them to learn complex distributions and dependencies within the training data. A properly trained network can then be used to generate new data points, which resemble typical data points from the training set, starting from pure noise.
 
-The diffusion models we use in our project are `google/ddpm-celebahq-256` [1] and `google/ddpm-bedroom-256` [2].
+The diffusion models we used in our project are `google/ddpm-celebahq-256` [1] and `google/ddpm-bedroom-256` [2].
 
 We provide:
 - **Intuitive visualizations** of both the forward (noising) and backward (denoising) processes.
