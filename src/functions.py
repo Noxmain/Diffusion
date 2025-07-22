@@ -1,13 +1,13 @@
 from IPython.display import HTML, display, clear_output
-import numpy as np
-import torch
+from io import BytesIO
+from base64 import b64encode
 from PIL import Image
-import base64
-import io
-import os
-import yaml
+from os import makedirs
+from yaml import safe_load
+from numpy import array
+import torch
 
-os.makedirs("../output", exist_ok=True)
+makedirs("../output", exist_ok=True)
 
 def tensor_as_image(tensor):
     # convert an image tensor to an image object
@@ -18,17 +18,17 @@ def tensor_as_image(tensor):
 
 def image_as_tensor(image):
     # convert an image object to an image tensor
-    image = torch.from_numpy(np.array(image)) # create tensor
+    image = torch.from_numpy(array(image)) # create tensor
     image = image.permute(2, 0, 1).unsqueeze(0) # change order of tensor
     image = image / 255 * 2 - 1 # map from [0,255] to [-1,1]
     return image # return image tensor
 
 def image_as_html(image):
     # convert an image object to an html tag
-    buffer = io.BytesIO() # create buffer
+    buffer = BytesIO() # create buffer
     image.save(buffer, format="PNG") # fill buffer
     image = buffer.getvalue() # get bytes
-    image = base64.b64encode(image).decode() # convert bytes
+    image = b64encode(image).decode() # convert bytes
     return f"<img src=\"data:image/png;base64,{image}\" />" # return html tag
 
 def tensor_as_html(tensor):
@@ -48,14 +48,19 @@ def show_table(table):
     d = "</center></td></tr></table>"
     show(HTML(a + b.join(c.join(t) for t in table) + d))
 
-def show_images(*tensors):
+def show_images(*tensors, labels=None):
     # show image tesors side by side
-    show_table([[tensor_as_html(t) for t in tensors]])
+    if labels:
+        show_table([[tensor_as_html(t) for t in tensors], labels])
+    else:
+        show_table([[tensor_as_html(t) for t in tensors]])
 
 def generate_noise(image_size):
+    # sample a random noise image tensor
     new_noise = torch.randn((1, 3, image_size, image_size))
     return new_noise
 
 def config(key):
+    # load an attribute from the config file
     with open("config.yaml") as f:
-        return yaml.safe_load(f).get(key)
+        return safe_load(f).get(key)
